@@ -1,0 +1,31 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<form id="frm" action="{$base_url}/room/register" method="post">
+	<input type="hidden" name="_token" value="{$_token|escape}" />
+	<input type="hidden" name="room_img_data" value="{$room_img_data}" />
+	<input type="hidden" name="room_img_type" value="{$room_img_type}" />
+	<input type="hidden" name="room_img_extension" value="{$room_img_extension}" />
+	{foreach from=$inputs key=$col_name item=$value}
+		<input type="hidden" name="{$col_name}" value="{$value|escape}" />
+	{/foreach}
+
+	<table>
+		{foreach from=$items key=$col_name item=$propertys}
+		<tr>
+			{include file="../controll_parts/viewonly.html"}
+		</tr>
+		{/foreach}
+	</table>
+
+	{if $_button === 'register'}
+		<p>この登録内容で確定してよろしいですか？</p>
+			<button name="button" value="back">戻る</button>
+			<button name="button" value="fixed">確定</button>
+	{elseif $_button === 'fixed'}
+		<p>上記内容で登録しました。</p>
+		<div>
+			<a href="{$base_url}/room/register">続けて新規登録</a>
+		</div>
+	{/if}
+</form>

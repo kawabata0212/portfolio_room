@@ -1,0 +1,11 @@
+<td>{$propertys.alias}</td>
+<td>
+	{foreach constant($propertys.ref_const_name) key=$key item=$value}
+		<input type="radio" name="{$col_name}" value="{$key}" 
+			{if $key === intval($inputs.$col_name)}
+				checked
+			{/if}
+		>{{$value|escape}}
+		</option>
+	{/foreach}	
+</td>

@@ -1,0 +1,57 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<input type="hidden" name="_token" value="{$_token}" />
+
+<!-- ページ番号：{$page}<br>
+$reservesの長さ：{$reserves|@count} -->
+
+<table border="1">
+	<tr>
+		{foreach from=$items key=$col_name item=$propertys}
+			<th>
+			{$propertys.alias}
+			</th>
+		{/foreach}
+	</tr>
+
+{for $i = $smarty.const.RESERVELIST_CNT_PER_1PAGE * ($page - 1) to $reserves|@count - 1 max=$smarty.const.RESERVELIST_CNT_PER_1PAGE}
+	<tr>
+		{foreach from=$items key=$col_name item=$propertys}
+			<td>
+				{if 'money' === $propertys.kind}
+					{nl2br(number_format($reserves.$i.$col_name)|escape)}円
+				{else}
+					{$reserves.$i.$col_name|escape}
+				{/if}
+			</td>
+		{/foreach}
+	</tr>
+{/for}
+
+</table>
+
+<div class="paging">
+{$reserves|@count}件中
+{$smarty.const.RESERVELIST_CNT_PER_1PAGE * ($page - 1) + 1}
+~{$i}件までを表示
+
+	{if intval($page) !== 1}
+		<a class="page-prev" href="{$base_url}/reservelist/index?page={$page - 1}">前へ</a>
+	{/if}
+
+	{for $j = 1 to $reserves|@count / $smarty.const.RESERVELIST_CNT_PER_1PAGE}
+		{if (intval($page) === $j)}
+			<span class="current-page">{$j}</span>
+		{else}
+			<a class="page-num-link" href="{$base_url}/reservelist/index?page={$j}">{$j}</a>
+		{/if}
+	{/for}
+
+	{if $reserves|@count > $page * $smarty.const.RESERVELIST_CNT_PER_1PAGE}
+		<a class="page-next" href="{$base_url}/reservelist/index?page={$page + 1}">次へ</a>
+	{/if}
+</div>
+
+<button type="button" onclick="history.back()">戻る</button>
+

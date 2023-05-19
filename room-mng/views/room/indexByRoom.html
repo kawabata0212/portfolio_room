@@ -1,0 +1,146 @@
+{include file="../layout.html"}
+
+<!-- debug_print_var
+{$items|@debug_print_var} -->
+
+<h2>{$title}</h2>
+
+<h3>{$items.name.alias}：{$rooms.0.name}</h3>
+<form id="frm1" action="{$base_url}/room/indexByRoom/{$rooms.0.name}" method="post" enctype='multipart/form-data'>
+	<div>
+		<img id="img" src="../../../../{$img_path}" width="{$items.room_img.width}" hegiht="{$items.room_img.height}" alt="{$items.room_img.alt}" /><input id="file-img" name="room_img" type="file" accept="image/*" />
+	</div>
+	<button name="button" value="img-fixed">画像更新 確定</button>
+
+	{if $_button === 'img-fixed'}
+		<div class="msg-center">
+			{$msg.room_img}
+		</div>
+		
+		{if isset($errors) && count($errors) > 0}
+			{include file="../errors.html"}
+		{/if}		
+	{/if}
+</form>
+
+<!-- <form method="get" action="{$base_url}/room/indexByRoom/{$name}" class="search-form">
+	<input type="text" class="search-box" name="keyword" placeholder="備考で検索" value="{$keyword}">
+</form> -->
+
+
+<div>
+	<a href="{$base_url}/room/addRegister/{$rooms.0.name}">部屋情報追加登録</a>
+</div>
+
+<input type="button" value="価格タイプコードについて" id="mybtn1">
+<script>
+let button1 = document.getElementById('mybtn1');
+button1.addEventListener('click', () => {
+    open('{$base_url}/price_type/index', null, 'top=200,left=100,width=500,height=300');
+
+});
+</script>
+
+<form id="frm2" action="{$base_url}/room/indexByRoom/{$rooms.0.name}" method="post">
+<table class="rooms-table">
+	<tr>
+		<th>操作</th>
+		{foreach from=$items key=$col_name item=$propertys}
+			{if $propertys.edit_type !== 'invisible'}
+				<th>
+				{$propertys.alias}
+				</th>
+			{/if}
+		{/foreach}
+	</tr>
+{for $i = 0 to $rooms|@count - 1}
+	<tr>
+		<td>
+			<a href="{$base_url}/room/update/{$rooms.$i.id}">個別編集</a>
+		</td>
+		{foreach from=$items key=$col_name item=$propertys}
+			{if $propertys.edit_type !== 'invisible'}
+				<td>
+				{if $propertys.edit_type === 'readonly' 
+					|| $col_name === 'apply_start_date' && $i === 0
+					|| $col_name === 'apply_end_date' && $rooms.$i.id === $maxid}
+					{$rooms.$i.$col_name|escape}
+					<input type="hidden" name="{$col_name}{$i}" value="{$rooms.$i.$col_name|escape}" />
+				{else}
+					<input type="date" id="{$col_name}{$i}" name="{$col_name}{$i}" value="{date('Y-m-d', strtotime($rooms.$i.$col_name))}">
+				{/if}
+				</td>
+			{/if}
+		{/foreach}
+	</tr>
+{/for}
+</table>
+{if $rooms|@count > 1}
+	<button name="button" value="fixed">適用日更新 確定</button>
+{/if}
+</form>
+
+
+{if $_button === 'fixed'}
+	<div class="msg-center">
+		{$msg.apply_date}
+	</div>
+	{if isset($errors) && count($errors) > 0}
+		{include file="../errors.html"}
+	{/if}
+{/if}
+
+<div class="count">
+	全{$rooms|@count}件を表示
+</div>
+
+<button type="button" onclick="history.back()">戻る</button>
+<!-- <div class="button">
+	<a href="{$base_url}/room/index">戻る</a>
+</div> -->
+
+<div class="logout">
+	<a href="{$base_url}/account/signout">ログアウト</a>
+</div>
+
+
+<script>
+const form = document.getElementById('frm2');
+form.addEventListener(`change`, (e) => {
+	date = new Date(e.target.value);
+	
+	if (e.target.id.indexOf('apply_start_date') > -1) {
+		date.setDate(date.getDate() - 1);
+		var distEl = 'apply_end_date' + String(Number(e.target.id.replace('apply_start_date', '')) - 1);
+
+	} else if (e.target.id.indexOf('apply_end_date') > -1) {
+		date.setDate(date.getDate() + 1);
+		var distEl = 'apply_start_date' + String(Number(e.target.id.replace('apply_end_date', '')) + 1);
+
+	}
+
+	result = String(date.getFullYear()) + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+	document.getElementById(distEl).value = result;
+});
+</script>
+
+<script>
+document.getElementById('file-img').addEventListener('change', function (e) {
+    // 1枚だけ表示する
+    var file = e.target.files[0];
+
+    // ファイルリーダー作成
+    var fileReader = new FileReader();
+    fileReader.onload = function() {
+        // Data URIを取得
+        var dataUri = this.result;
+
+        // img要素に表示
+        var img = document.getElementById('img');
+        img.src = dataUri;
+    }
+
+    // ファイルをData URIとして読み込む
+    fileReader.readAsDataURL(file);
+});
+</script>

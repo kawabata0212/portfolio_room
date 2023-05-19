@@ -1,0 +1,21 @@
+<td>{$propertys.alias}</td>
+<td>
+	{if 'img' === $propertys.item_type}
+		<!-- ↓のsrcの書き方が汎用性が無い＆reserveサイト側では完全アウトなことに気付いた。
+			ホントはmngサイト側も修正したほうが良い。 -->
+		<img src="{$inputs.$col_name}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+	{else}
+		{if '' !== $propertys.ref_const_name}
+			{nl2br(Func::getValue($inputs.$col_name, $propertys.ref_const_name))|escape}
+		{elseif !empty($propertys.ref_array)}
+			{nl2br(Func::getValue($inputs.$col_name, $propertys.ref_array))|escape}
+		{elseif !empty($propertys.date_format)}
+			{nl2br(date('Y/m/d', strtotime($inputs.$col_name)))|escape}
+		{elseif !empty($propertys.kind) && 'money' === $propertys.kind}
+			{nl2br(number_format($inputs.$col_name))|escape}円
+		{else}
+			{nl2br($inputs.$col_name|escape)}
+		{/if}
+		<input type="hidden" name="{$col_name}" value="{$inputs.$col_name|escape}">
+	{/if}
+</td>

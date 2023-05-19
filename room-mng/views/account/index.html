@@ -1,0 +1,67 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<!-- debug_print_var
+{$smarty.session|@debug_print_var} -->
+
+<!-- 権限種別:管理者の場合だけアカウント一覧を表示する -->
+{if intval($login_user.auth_type) === 1}
+	<div>
+		<a href="{$base_url}/account/signup">新規登録</a>
+	</div>
+	
+<!-- 	ページ番号：{$page}<br>
+	$usersの長さ：{$users|@count} -->
+
+	<table class="adminuser-table">
+		<tr>
+			<th>操作</th>
+			{foreach from=$items key=$col_name item=$propertys}
+				<th>
+				{$propertys.alias}
+				</th>
+			{/foreach}
+		</tr>
+
+	{for $i = $smarty.const.USER_CNT_PER_1PAGE * ($page - 1) to $users|@count - 1 max=$smarty.const.USER_CNT_PER_1PAGE}
+		<tr>
+			<td>
+				<a href="{$base_url}/account/update/{$users.$i.id}">編集</a>
+				|
+				<a href="{$base_url}/account/delete/{$users.$i.id}">削除</a>
+			</td>
+			{foreach from=$items key=$col_name item=$propertys}
+				<td>
+					{$users.$i.$col_name|escape}
+				</td>
+			{/foreach}
+		</tr>
+	{/for}
+
+	</table>
+
+	<div class="paging">
+		<div>	
+			{$users|@count}件中{$smarty.const.USER_CNT_PER_1PAGE * ($page - 1) + 1}~{$i}件までを表示
+		</div>
+	
+		<div>
+			{if intval($page) !== 1}
+				<a class="page-prev" href="{$base_url}/account/index?page={$page - 1}">前へ</a>
+			{/if}
+
+			{for $j = 1 to $users|@count / $smarty.const.USER_CNT_PER_1PAGE}
+				{if (intval($page) === $j)}
+					<span id="current-page">{$j}</span>
+				{else}
+					<a class="page-num-link" href="{$base_url}/account/index?page={$j}">{$j}</a>
+				{/if}
+			{/for}
+
+			{if $users|@count > $page * $smarty.const.USER_CNT_PER_1PAGE}
+				<a class="page-next" href="{$base_url}/account/index?page={$page + 1}">次へ</a>
+			{/if}
+		</div>
+	</div>
+{/if}
+<button type="button" onclick="history.back()">戻る</button>

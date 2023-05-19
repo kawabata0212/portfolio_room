@@ -1,0 +1,28 @@
+<td>{$propertys.alias}</td>
+<td>
+	<!-- debug_print_var
+{$price_type_formatted|@debug_print_var} -->
+	<select id="{$col_name}" name="{$col_name}" 
+		size="{$propertys.size}">	
+		<option value="" selected>{$propertys.alias}</option>
+		{if '' !== $propertys.ref_const_name}
+			{foreach constant($propertys.ref_const_name) key=$key item=$value}
+				<option value="{$key}"
+					{if $key === intval($inputs.$col_name)}
+						selected
+					{/if}
+					>{$value|escape}
+				</option>
+			{/foreach}
+		{elseif 'selectbox' === $propertys.item_type && isset($propertys.ref_array)}
+			{foreach $propertys.ref_array key=$key item=$value}
+				<option value="{$key}"
+					{if $key === intval($inputs.$col_name)}
+						selected
+					{/if}
+					>{$value|escape}
+				</option>
+			{/foreach}
+		{/if}
+	</select>
+</td>

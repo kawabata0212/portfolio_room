@@ -1,0 +1,16 @@
+<td>{$propertys.alias}</td>
+<td>
+	{if 'img' === $propertys.item_type}
+		{if $_button === 'fixed' || empty($_button)}
+			<img src="../../../{$upload_file}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+		{else}
+			<img src="data:{$room_img_type};base64,{$room_img_data}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+		{/if}
+	{elseif '' !== $propertys.ref_const_name}
+		{nl2br($inputs["`$col_name`_display_value"])|escape}
+		<input type="hidden" name="{$col_name}" value="{$inputs.$col_name|escape}">
+	{else}
+		{nl2br($inputs.$col_name|escape)}
+		<input type="hidden" name="{$col_name}" value="{$inputs.$col_name|escape}">
+	{/if}
+</td>

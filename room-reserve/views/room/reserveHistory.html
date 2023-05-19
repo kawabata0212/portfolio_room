@@ -1,0 +1,70 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<table border="1">
+	<!-- ヘッダ行		 -->
+	<tr>
+		<th>操作</th>
+		{foreach from=$items key=$col_name item=$propertys}
+			{if 'invisible' !== $propertys.edit_type}			
+				<th>
+					{$propertys.alias}
+				</th>
+			{/if}
+		{/foreach}
+	</tr>
+
+	<!-- データ行 -->
+	{for $i = $smarty.const.RESERVELIST_CNT_PER_1PAGE * ($page - 1) to $reserves|@count - 1 max=$smarty.const.RESERVELIST_CNT_PER_1PAGE}
+		<tr>
+			<td>
+				{if 1 === $reserves.$i.status}
+					<a href="{$base_url}/room/reserveCancel/{$reserves.$i.id}">予約取り消し</a>
+				{/if}
+			</td>
+			{foreach from=$items key=$col_name item=$propertys}
+				{if 'invisible' !== $propertys.edit_type}
+					<td align="center">
+						{if 'money' === $propertys.kind}
+							{nl2br(number_format($reserves.$i.$col_name)|escape)}円
+						{elseif !empty($reserves.$i.$col_name) && '' !== $propertys.date_format}
+							{nl2br(date($propertys.date_format, strtotime($reserves.$i.$col_name))|escape)}
+						{elseif '' !== $propertys.ref_const_name}
+							{nl2br(Func::getValue($reserves.$i.$col_name, $propertys.ref_const_name)|escape)}
+						{else}
+							{$reserves.$i.$col_name|escape}
+						{/if}
+					</td>
+				{/if}
+			{/foreach}
+		</tr>
+	{/for}
+
+</table>
+
+<div class="paging">
+	{$reserves|@count}件中
+	{$smarty.const.RESERVELIST_CNT_PER_1PAGE * ($page - 1) + 1}
+	~{$i}件までを表示
+</div >
+
+<div>
+	{if intval($page) !== 1}
+		<a class="page-prev" href="{$base_url}/room/reserveHistory?page={$page - 1}">前へ</a>
+	{/if}
+
+	{for $j = 1 to $reserves|@count / $smarty.const.RESERVELIST_CNT_PER_1PAGE}
+		{if (intval($page) === $j)}
+			<span class="current-page">{$j}</span>
+		{else}
+			<a class="page-num-link" href="{$base_url}/room/reserveHistory?page={$j}">{$j}</a>
+		{/if}
+	{/for}
+
+	{if $reserves|@count > $page * $smarty.const.RESERVELIST_CNT_PER_1PAGE}
+		<a class="page-next" href="{$base_url}/room/reserveHistory
+?page={$page + 1}">次へ</a>
+	{/if}
+</div>
+
+<button type="button" onclick="history.back()">戻る</button>

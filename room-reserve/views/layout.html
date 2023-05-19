@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		{if isset($title)}
+			{$title} -
+		{/if}お部屋予約サイト
+	</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div id="header">
+		<h1><a href="{$base_url}/">部屋予約サイト</a></h1>
+		
+		{if isset($smarty.session.login_user)}
+			<span id="login_user">
+				<img src="/image/login_user.jpg" alt="ログインユーザ" width="16" height="16">
+				ようこそ {$smarty.session.login_user.name|escape} 様
+			</span>
+		{/if}
+	</div>
+
+	<div id="nav">
+		<p>
+			{if 'TOPページ' !== $title}
+				<a href="{$base_url}/">TOPページへ</a>
+			{/if}
+		</p>
+
+
+	</div>
+	<div id ="main">
+
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(function() {
+		$('#pref').on("change",function(){
+		  $("#city").empty();
+		  // $("#city").append('<option value="" selected="selected">市区町村名</option>');
+		  optval = $(this).val();
+		  // console.log(optval);
+		  $.post({
+		    url: '../../get_city_list.php',
+		    data:{
+		      'opt': optval
+		    },
+		      dataType: 'json',
+		    }).done(function(datas){
+		      var i = 0;
+		      // console.log(datas);
+		      $.each(datas,function(key,item){
+		        $("#city").append('<option value="'+item.city_id+'">'+item.city_name+'</option>'); 
+		        i++;
+		      })
+		    }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+		      alert(errorThrown);
+		  })
+		})
+	});
+</script>
+
+</body>
+</html>

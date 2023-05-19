@@ -1,0 +1,114 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<!-- debug_print_var
+{$rooms|@debug_print_var} -->
+
+<!-- 権限種別:管理者の場合だけアカウント一覧を表示する -->
+{if intval($login_user.auth_type) === 1}
+	<div>
+		<a href="{$base_url}/account/index">ユーザ一覧</a>
+	</div>
+{/if}
+	
+<div>
+	<a href="{$base_url}/room/register">部屋情報登録</a>
+</div>
+<div>
+	<a href="{$base_url}/reservelist/index">予約状況一覧</a>
+</div>
+<div>
+	<a href="{$base_url}/customer/index">顧客一覧</a>
+</div>
+
+<!-- <form method="get" action="{$base_url}/room/index" class="search-form">
+	<input type="text" class="search-box" name="keyword" placeholder="備考で検索" value="{$keyword}">
+</form> -->
+
+<form method="get" action="{$base_url}/room/index" class="search-form">
+	<table id="search-condition">
+	{foreach from=$search_items key=$col_name item=$propertys}
+		<tr>
+			<td>
+				<!-- <input type="hidden" name="{$col_name}" disabled> -->
+				<span>{$propertys.alias}</span>
+			</td>
+			<td>
+				{if '' !== $propertys.ref_const_name}
+					<select name="searchValue-{$col_name}">
+					<option value="">選択してください</option>
+						{foreach from=constant($propertys.ref_const_name) key=$key item=$value}
+							<option value="{$key}"
+							{if strVal($key) === $search_conditions.$col_name}
+								selected
+							{/if}
+							>
+							{$value}</option>
+						{/foreach}
+					</select>
+				{else}
+					<input type="text" name="searchValue-{$col_name}" value="">
+				{/if}
+			</td>
+		</tr>
+	{/foreach}
+	</table>
+	<button id="search-exe">検索実行</button>
+	<a class="unfilter" href="{$base_url}/room/index">絞り込み解除</a>
+</form>
+
+<table class="rooms-table">
+	<tr>
+		<th>操作</th>
+		{foreach from=$items key=$col_name item=$propertys}
+			<th>
+			{$propertys.alias}
+			</th>
+		{/foreach}
+	</tr>
+
+{for $i = $smarty.const.ROOM_CNT_PER_1PAGE * ($page - 1) to $rooms|@count - 1 max=$smarty.const.ROOM_CNT_PER_1PAGE}
+	<tr>
+		<td>
+			<a class="operation" href="{$base_url}/room/indexByRoom/{$rooms.$i.name}">選択</a>
+	<!-- 		<span>&nbsp|&nbsp</span>
+			<<a class="operation" href="{$base_url}/room/indexByRoom/{$rooms.$i.name}?searchValue-type={$search_conditions.type}&searchValue-status={$search_conditions.status}&searchValue-smoking_allowed_flg={$search_conditions.smoking_allowed_flg}&searchValue-pet_allowed_flg={$search_conditions.pet_allowed_flg}&searchValue-barrier_free_flg={$search_conditions.barrier_free_flg}">検索条件を維持して選択</a>> -->
+		</td>
+		{foreach from=$items key=$col_name item=$propertys}
+			<td>
+				{if $propertys.item_type === 'img'}
+					<img src="../../{$rooms.$i.room_img}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+				{else}
+					{$rooms.$i.$col_name|escape}
+				{/if}
+			</td>
+		{/foreach}
+	</tr>
+{/for}
+
+</table>
+<div class="count">
+{$rooms|@count}件中{$smarty.const.ROOM_CNT_PER_1PAGE * ($page - 1) + 1}~{$i}件までを表示
+</div>
+
+<div >
+	{if intval($page) !== 1}
+		<a class="page-prev" href="{$base_url}/room/index?page={$page - 1}">前へ</a>
+	{/if}
+
+	{for $j = 1 to $rooms|@count / $smarty.const.ROOM_CNT_PER_1PAGE}
+		{if (intval($page) === $j)}
+			<span id="current-page">{$j}</span>
+		{else}
+			<a class="page-num-link" href="{$base_url}/room/index?page={$j}">{$j}</a>
+		{/if}
+	{/for}
+
+	{if $rooms|@count > $page * $smarty.const.ROOM_CNT_PER_1PAGE}
+		<a class="page-next" href="{$base_url}/room/index?page={$page + 1}">次へ</a>
+	{/if}
+</div>
+
+<div class="logout">
+	<a href="{$base_url}/account/signout">ログアウト</a>
+</div>

@@ -1,0 +1,66 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<!-- ★現状ページ移動すると宿泊日がリセットされてしまう。
+	　なので、
+		・1ページ分だけ表示させる（ページング処理させない）
+		・以下を参考に、aタグクリック時もpost送信するようにする。	　
+		　https://qiita.com/yushimasu/items/a650a27ea0f10e5907c1
+		　※その場合、現在includeしてるsearch_controll部分も本ファイルにべた書きする必要が有りそう。もしくはformタグだけ本ファイルに記述する。
+ -->
+{include file="search_controll.html"}
+
+<!-- debug_print_var
+{$rooms|@debug_print_var} -->
+
+<table class="rooms-table">
+	<tr>
+		<th>操作</th>
+		{foreach from=$items key=$col_name item=$propertys}
+			<th>
+			{$propertys.alias}
+			</th>
+		{/foreach}
+	</tr>
+
+{for $i = $smarty.const.ROOM_CNT_PER_1PAGE_RESERVESITE * ($page - 1) to $rooms|@count - 1 max=$smarty.const.ROOM_CNT_PER_1PAGE_RESERVESITE}
+	<tr>
+		<td>
+			<a class="operation" href="{$base_url}/room/detail/{$rooms.$i.name}?start_date={$start_date}&end_date={$end_date}">部屋詳細</a>
+		</td>
+		{foreach from=$items key=$col_name item=$propertys}
+			<td>
+				{if $propertys.item_type === 'img'}
+					<img src="{$rooms.$i.room_img}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+				{else}
+					{$rooms.$i.$col_name|escape}
+				{/if}
+			</td>
+		{/foreach}
+	</tr>
+{/for}
+
+</table>
+<div class="count">
+{$rooms|@count}件中{$smarty.const.ROOM_CNT_PER_1PAGE_RESERVESITE * ($page - 1) + 1}~{$i}件までを表示
+</div>
+
+<div >
+	{if intval($page) !== 1}
+		<a class="page-prev" href="{$base_url}/room/list?page={$page - 1}">前へ</a>
+	{/if}
+
+	{for $j = 1 to $rooms|@count / $smarty.const.ROOM_CNT_PER_1PAGE_RESERVESITE}
+		{if (intval($page) === $j)}
+			<span id="current-page">{$j}</span>
+		{else}
+			<a class="page-num-link" href="{$base_url}/room/list?page={$j}">{$j}</a>
+		{/if}
+	{/for}
+
+	{if $rooms|@count > $page * $smarty.const.ROOM_CNT_PER_1PAGE_RESERVESITE}
+		<a class="page-next" href="{$base_url}/room/list?page={$page + 1}">次へ</a>
+	{/if}
+</div>
+
+<button type="button" onclick="history.back()">戻る</button>

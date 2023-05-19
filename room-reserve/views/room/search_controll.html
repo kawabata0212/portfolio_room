@@ -1,0 +1,19 @@
+
+<form action="{$base_url}/room/list" method="get">
+	<label>チェックイン</label>
+	<input type="date" name="start_date" value="{$start_date}">
+	<!-- <script>
+		flatpickr('#date', {
+		altInput: true,
+		altFormat: 'Y/n/j',
+		dateFormat: 'Y-m-d'
+		});
+	</script>
+	 -->
+	<label>チェックアウト</label>
+	<input type="date" name="end_date" value="{$end_date}">
+	
+	<div>
+		<button>宿泊日指定</button>
+	</div>
+</form>

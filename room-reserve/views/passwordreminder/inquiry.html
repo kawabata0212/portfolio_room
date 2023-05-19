@@ -1,0 +1,33 @@
+{include file="../layout.html"}
+
+<h2>{$title}</h2>
+
+<div>
+ご登録済みのメールアドレスを入力してください。<br>
+パスワード再設定用のURLをメールでお送りします。
+</div>
+<br><br>
+<!-- debug_print_var
+{$errors|@debug_print_var} -->
+
+
+<form id="frm" action="{$base_url}/passwordReminder/inquiry" method="post">
+	<input type="hidden" name="_token" value="{$_token|escape}" />
+
+	{if isset($errors) && count($errors) > 0}
+		{include file="../errors.html"}
+	{/if}
+
+	<table>
+		{foreach from=$items key=$col_name item=$propertys}
+		<tr>
+			{include file="../controll_parts/`$propertys.item_type`.html"}
+		</tr>
+		{/foreach}
+	</table>
+
+	<button type="button" onclick="history.back()">戻る</button>
+	<button name="button" value="submit">送信</button>
+
+</form>
+

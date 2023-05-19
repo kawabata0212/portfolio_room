@@ -1,0 +1,104 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<!-- debug_print_var
+{$smarty.session|@debug_print_var} -->
+
+<div class="Wrapper" >
+	<div class="Content" >
+		<div class="Left" >
+			<!-- <a class="NavListItem" href="{$base_url}/toppage/overview" class="gtm-link" >お部屋予約へ</a> -->
+<!-- 		
+</div>
+
+		<div class="Right" > -->
+			<ul class="NavList" >
+				<li class="NavListItem" >
+					<a id="header_link_top" href="{$base_url}/room/search" class="gtm-link" >お部屋予約へ(準備中)</a>
+				</li>
+				<li class="NavListItem" >
+					<a id="header_link_top" href="{$base_url}/toppage/overview" class="gtm-link" >概要</a>
+				</li>
+
+				<li class="NavListItem" >
+					<a id="header_link_inquiry" href="{$base_url}/toppage/contactus" class="gtm-link" >お問い合わせ</a>
+				</li>
+			</ul>
+
+			{if !isset($smarty.session.login_user)}
+				<a id="header_btn_login" href="{$base_url}/account/signin" class="LoginButton" >ログイン</a>
+				<a id="header_btn_signup" href="{$base_url}/account/signup" class="SignupButton" >無料で新規会員登録</a> 			
+			{else}
+			<div id="mymenu">
+				<ul>
+					<li>
+						<a href="#" class="NavListItem">マイメニュー<span class="menu-span">▼</span></a>
+						<ul>
+			                <li><a href="{$base_url}/account/update" class="submenu">ユーザ情報編集</a></li>
+			                <li><a href="{$base_url}/account/passwordChange" class="submenu">パスワード変更機能</a></li>
+			                <li><a href="{$base_url}/room/reserveHistory" class="submenu">予約履歴（取消もこちらから）</a></li>
+			                <li><a href="{$base_url}/withdrawal/confirm" class="submenu">退会</a></li>
+			            </ul>
+		        	</li>
+		         </ul>
+		    </div>
+
+				<a href="{$base_url}/account/signout" class="LogoutButton" >ログアウト</a>
+
+			{/if}
+	    </div>
+	</div>
+</div>
+
+<!-- <div class="Wrapper" data-v-ed9822f8="" data-v-602b6384="">
+	<div class="Content" data-v-ed9822f8="">
+		<div class="Left" data-v-ed9822f8="">
+			<h1 data-v-ed9822f8="">
+				<a href="/reserve" aria-current="page" class="ServiceAnchor nuxt-link-exact-active nuxt-link-active" data-v-ed9822f8="">STORES 予約</a>
+			</h1>
+		</div> 
+
+	<div class="Right" data-v-ed9822f8="">
+		<div class="Nav NavClose" data-v-ed9822f8="">
+			<ul class="NavList" data-v-ed9822f8="">
+				<li class="NavListItem NavListItemActive" data-v-ed9822f8="">
+					<a id="header_link_top" href="/reserve" data-v-ed9822f8="" class="gtm-link" data-gtm-vis-first-on-screen-41568479_137="9903" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1"> 概要 </a>
+				</li>
+
+				<li class="NavListItem" data-v-ed9822f8="">
+					<a id="header_link_features" href="/reserve/features" data-v-ed9822f8="" class="gtm-link" data-gtm-vis-first-on-screen-41568479_137="9916" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">機能</a>
+				</li> 
+
+				<li class="NavListItem" data-v-ed9822f8="">
+					<a id="header_link_pricing" href="/reserve/pricing" data-v-ed9822f8="" class="gtm-link" data-gtm-vis-first-on-screen-41568479_137="9938" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">料金</a>
+				</li> 
+
+				<li class="NavListItem" data-v-ed9822f8="">
+					<a id="header_link_categories" href="/reserve/categories" data-v-ed9822f8="" class="gtm-link" data-gtm-vis-first-on-screen-41568479_137="9961" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">業種別</a>
+				</li>
+
+				<li class="NavListItem" data-v-ed9822f8="">
+					<a id="header_link_inquiry" href="https://go.coubic.com/inquiry.html?source=internal&amp;medium=referral&amp;campaign=reserve_top&amp;content=cta19" target="_blank" data-v-ed9822f8="" class="gtm-link" data-gtm-vis-first-on-screen-41568479_137="9973" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">お問い合わせ</a>
+				</li>
+			</ul>
+
+			<div class="tiny" data-v-3488d7ae="" data-v-ed9822f8=""></div> 
+
+			<a id="header_btn_login" href="https://coubic.com/signin/merchant?_gl=1*1w9o4xc*_ga*NTk2Mzg3NjUxLjE2MTEzMTY3NjM.*_ga_KQK7MFB3SE*MTY0MzM2NTAzOS4xODcuMS4xNjQzMzY1MDg0LjE1&amp;_ga=2.32069432.761240346.1643356186-596387651.16113167637&amp;from_lp=true" class="LoginButton ForPC gtm-link" data-v-ed9822f8="" data-gtm-vis-first-on-screen-41568479_137="9983" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">ログイン
+			</a>
+		</div> 
+
+		<div class="ButtonGroup" data-v-ed9822f8="">
+			<a id="header_btn_login" href="https://coubic.com/signin/merchant?_gl=1*1w9o4xc*_ga*NTk2Mzg3NjUxLjE2MTEzMTY3NjM.*_ga_KQK7MFB3SE*MTY0MzM2NTAzOS4xODcuMS4xNjQzMzY1MDg0LjE1&amp;_ga=2.32069432.761240346.1643356186-596387651.16113167637&amp;from_lp=true" class="LoginButton ForSP gtm-link" data-v-ed9822f8="" data-gtm-vis-first-on-screen-41568479_137="556" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">ログイン</a>
+
+
+			<a id="header_btn_signup" href="https://coubic.com/merchants/new?source=internal&amp;medium=referral&amp;campaign=reserve_top&amp;content=cta21" class="SignupButton gtm-link" data-v-ed9822f8="" data-gtm-vis-first-on-screen-41568479_137="9992" data-gtm-vis-total-visible-time-41568479_137="100" data-gtm-vis-has-fired-41568479_137="1">
+          無料で試してみる</a> 
+        <button class="NavButton" data-v-ed9822f8="">
+        	<img alt="メニューアイコン" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTQuNSA1LjI1YS43NS43NSAwIDAgMCAwIDEuNWgxNWEuNzUuNzUgMCAwIDAgMC0xLjVoLTE1ek0zLjc1IDEyYS43NS43NSAwIDAgMSAuNzUtLjc1aDE1YS43NS43NSAwIDAgMSAwIDEuNWgtMTVhLjc1Ljc1IDAgMCAxLS43NS0uNzV6bTAgNmEuNzUuNzUgMCAwIDEgLjc1LS43NWgxNWEuNzUuNzUgMCAwIDEgMCAxLjVoLTE1YS43NS43NSAwIDAgMS0uNzUtLjc1eiIgZmlsbD0iIzJBM0I0QyIvPjwvc3ZnPg==" class="NavIcon" data-v-ed9822f8="">
+        </button></div>
+    </div>
+</div>
+</div> -->
+
+<!-- <button type="button" onclick="history.back()">戻る</button> -->

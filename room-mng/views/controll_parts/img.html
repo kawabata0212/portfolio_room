@@ -1,0 +1,35 @@
+<td>{$propertys.alias}</td>
+<td>
+	<!-- <input id="file-img" name="{$col_name}" type="file" accept="image/*" /> -->
+	<img id="img" src="../../../{$upload_file}" width="{$propertys.width}" hegiht="{$propertys.height}" alt="{$propertys.alt}" />
+    <input id="file-img" name="{$col_name}" type="file" accept="image/*" />        
+</td>
+
+
+<script>
+const img = document.getElementById('img');
+img.style.display = 'none';
+document.getElementById('file-img').addEventListener('change', function (e) {
+    // 1枚だけ表示する
+    var file = e.target.files[0];
+
+    // ファイルリーダー作成
+    var fileReader = new FileReader();
+    fileReader.onload = function() {
+        // Data URIを取得
+        var dataUri = this.result;
+
+    	// img要素を表示状態にする
+		// img.style.display = 'block';
+        // img要素に表示
+        var img = document.getElementById('img');
+        img.src = dataUri;
+    }
+    
+    // img要素を表示状態にする
+	img.style.display = '';
+    // ファイルをData URIとして読み込む
+    fileReader.readAsDataURL(file);
+});
+</script>
+

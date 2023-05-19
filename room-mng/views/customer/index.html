@@ -1,0 +1,53 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<input type="hidden" name="_token" value="{$_token}" />
+
+<!-- ページ番号：{$page}<br>
+$customersの長さ：{$customers|@count} -->
+
+<table  class="customer-table">
+	<tr>
+		{foreach from=$items key=$col_name item=$propertys}
+			<th>
+			{$propertys.alias}
+			</th>
+		{/foreach}
+	</tr>
+
+{for $i = $smarty.const.CUSTOMER_USER_CNT_PER_1PAGE * ($page - 1) to $customers|@count - 1 max=$smarty.const.CUSTOMER_USER_CNT_PER_1PAGE}
+	<tr>
+		{foreach from=$items key=$col_name item=$propertys}
+			<td>
+				{$customers.$i.$col_name|escape}
+			</td>
+		{/foreach}
+	</tr>
+{/for}
+
+</table>
+
+<div class="paging">
+	{$customers|@count}件中
+	{$smarty.const.CUSTOMER_USER_CNT_PER_1PAGE * ($page - 1) + 1}
+	~{$i}件までを表示
+	<div>
+	{if intval($page) !== 1}
+		<a class="page-prev" href="{$base_url}/customer/index?page={$page - 1}">前へ</a>
+	{/if}
+
+	{for $j = 1 to $customers|@count / $smarty.const.CUSTOMER_USER_CNT_PER_1PAGE}
+		{if (intval($page) === $j)}
+			<span class="page-num">{$j}</span>
+		{else}
+			<a class="page-num" href="{$base_url}/customer/index?page={$j}">{$j}</a>
+		{/if}
+	{/for}
+
+	{if $customers|@count > $page * $smarty.const.CUSTOMER_USER_CNT_PER_1PAGE}
+		<a class="page-next" href="{$base_url}/customer/index?page={$page + 1}">次へ</a>
+	{/if}
+	</div>
+</div>
+
+<button type="button" onclick="history.back()">戻る</button>

@@ -1,0 +1,44 @@
+{include file="../layout.html"}
+
+<h2>{$title}</h2>
+
+{if $_button !== 'fixed'}
+	<div>
+	パスワードを再設定してください
+	</div>
+
+	<form id="frm" action="{$base_url}/passwordReminder/reset?auth_key={$auth_key}" method="post">
+		<input type="hidden" name="_token" value="{$_token|escape}" />
+
+		{if isset($errors) && count($errors) > 0}
+			{include file="../errors.html"}
+		{/if}
+
+		<table>		
+			<tr><td>新しいパスワード</td></tr>
+			<tr>
+				<td>
+				<input type="password" 
+				name="new_password" 
+				value="" >
+				</td>
+			</tr>
+
+			<tr><td>新しいパスワード(確認用)</td></tr>
+			<tr>
+				<td>
+				<input type="password" 
+				name="new_password_conf" 
+				value="" >
+				</td>
+			</tr>
+		</table>
+
+		<button name="button" value="fixed">パスワード再設定</button>
+	</form>
+
+{else}
+	<p>パスワードを再設定しました</p>
+{/if}
+
+

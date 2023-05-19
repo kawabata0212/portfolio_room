@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		{if isset($title)}
+			{$title} -
+		{/if}管理サイト
+	</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+
+</head>
+
+<body>
+	<h2>{$title}</h2>
+
+	<table border=1>
+		<tr>
+			<th>価格タイプコード</th>
+			<th>人数</th>
+			<th>区分</th>
+			<th>料金(1名様あたり)</th>
+			<th>備考</th>
+		</tr>
+			{foreach $price_type item=$col_name}
+			<tr>
+				<td>{$col_name.code|escape}</td>
+				<td>{$col_name.amount|escape}</td>
+				<td>{$col_name.weekday_type|escape}</td>
+				<td>{number_format($col_name.price)|escape}円</td>
+				<td>{$col_name.note|escape}</td>
+			</tr>
+			{/foreach}
+	</table>
+</body>
+</html>

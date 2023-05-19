@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>
+		{if isset($title)}
+			{$title} -
+		{/if}管理サイト
+	</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+</head>
+<body>
+	<div id="header">
+		<h1><a href="{$base_url}/">管理サイト</a></h1>
+		
+		{if isset($smarty.session.login_user)}
+			<span id="login_user">
+				<img src="/image/login_user.jpg" alt="ログインユーザ" width="16" height="16">
+				ログインユーザ：{$smarty.session.login_user.name|escape}（{$smarty.session.login_user.login_id}）
+			</span>
+		{/if}
+	</div>
+
+	<div id="nav">
+		<p>
+			<a href="{$base_url}/">ホーム</a>
+		</p>
+	</div>
+	<div id ="main">
+
+	</div>
+
+</body>
+</html>

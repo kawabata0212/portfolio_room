@@ -1,0 +1,24 @@
+{include file="../layout.html"}
+
+<h2>{$title}</h2>
+
+<form id="frm" action="{$base_url}/account/signup" method="post">
+	<input type="hidden" name="_token" value="{$_token|escape}" />
+
+	{if isset($errors) && count($errors) > 0}
+		{include file="../errors.html"}
+	{/if}
+
+	<table>
+		{foreach from=$items key=$col_name item=$propertys}
+		<tr>
+			{include file="../controll_parts/`$propertys.item_type`.html"}
+		</tr>
+		{/foreach}
+	</table>
+
+	{if is_null($_button) || $_button === 'back'}
+		<button type="button" onclick="history.back()">戻る</button>
+		<button name="button" value="register">登録</button>
+	{/if}
+</form>

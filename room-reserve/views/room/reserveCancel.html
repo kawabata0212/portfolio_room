@@ -1,0 +1,28 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<table>
+	{foreach from=$items key=$col_name item=$propertys}
+		{if 'invisible' !== $propertys.edit_type}
+			<tr>
+				{include file="../controll_parts/viewonly.html"}
+			</tr>
+		{/if}
+	{/foreach}
+
+
+
+</table>
+
+<br>
+この予約を取り消しますか？
+<form id="frm" action="{$base_url}/room/reserveCancelFixed" method="post">
+	<input type="hidden" name="reserve_id" value="{$inputs.id}">
+	<input type="hidden" name="_token" value="{$_token|escape}">
+
+	<button type="button" onclick="history.back()">戻る</button>
+	<button name="button" value="fixed">はい</button>
+</form>
+
+<br>
+

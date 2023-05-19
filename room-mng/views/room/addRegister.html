@@ -1,0 +1,42 @@
+{include file="../layout.html"}
+
+<h2>{$title}</h2>
+
+<input type="button" value="価格タイプコードについて" id="mybtn1">
+<script>
+let button1 = document.getElementById('mybtn1');
+button1.addEventListener('click', () => {
+    open('{$base_url}/price_type/list', null, 'top=200,left=100,width=500,height=300');
+});
+</script>
+
+<form id="frm" action="{$base_url}/room/addRegister/{$inputs.name|escape}" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="name" value="{$inputs.name|escape}" />
+	<input type="hidden" name="apply_end_date" value="{$inputs.apply_end_date|escape}" />
+	<input type="hidden" name="_token" value="{$_token|escape}" />
+
+	{if isset($errors) && count($errors) > 0}
+		{include file="../errors.html"}
+	{/if}
+
+	<table>
+		{foreach from=$items key=$col_name item=$propertys}
+			{if $propertys.edit_type === 'invisible'}
+				<input type="hidden" name="{$propertys.alias}" value="{$inputs.$col_name}">
+			{else}
+				<tr>
+					{if $propertys.edit_type === 'readonly'}
+						{include file="../controll_parts/viewonly.html"}
+					{else}
+						{include file="../controll_parts/`$propertys.item_type`.html"}
+					{/if}
+				</tr>
+			{/if}
+		{/foreach}
+	</table>
+
+	{if is_null($_button) || $_button === 'back'}
+		<button type="button" onclick="history.back()">戻る</button>
+		<button name="button" value="addRegister">登録</button>
+	{/if}
+</form>

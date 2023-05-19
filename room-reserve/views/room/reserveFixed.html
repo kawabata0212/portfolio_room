@@ -1,0 +1,43 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<table>
+	{foreach from=$items key=$col_name item=$propertys}
+	<tr>
+		{include file="../controll_parts/viewonly.html"}
+	</tr>
+	{/foreach}
+
+	<tr>
+		<td>
+			宿泊日
+		</td>
+		<td>
+			{date('Y年m月d日', strtotime($start_date))} ～ {date('Y年m月d日', strtotime($end_date))} 
+		</td>			
+	</tr>
+
+	<tr>
+		<td>
+			宿泊料金(総額)
+		</td>
+		<td>
+			{$price_etc}
+		</td>			
+	</tr>
+
+	<tr>
+		<td>
+			宿泊人数
+		</td>
+		<td>
+			{$Price_type.amount}名様
+		</td>			
+	</tr>
+
+
+</table>
+
+上記内容で予約しました。
+<br>
+

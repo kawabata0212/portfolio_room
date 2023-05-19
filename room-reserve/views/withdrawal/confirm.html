@@ -1,0 +1,13 @@
+{include file="../layout.html"}
+
+<h2>{$title}</h2>
+
+
+退会すると全てのデータが削除され、元に戻すことはできません。<br>
+予約済みの内容も全て取消されます。<br>
+退会してよろしいですか？
+<br><br>
+<form id="frm" action="{$base_url}/withdrawal/fixed" method="post">
+	<button type="button" onclick="history.back()">戻る</button>
+	<button name="button" value="fixed">はい</button>
+</form>

@@ -1,0 +1,56 @@
+{include file="../layout.html"}
+<h2>{$title}</h2>
+
+<form id="frm" action="{$base_url}/room/reserveConfirm" method="post">
+	<input type="hidden" name="room_name" value="{$room_name|escape}" />
+	<input type="hidden" name="start_date" value="{$start_date|escape}" />
+	<input type="hidden" name="end_date" value="{$end_date|escape}" />
+
+	<table>
+		{foreach from=$items key=$col_name item=$propertys}
+		<tr>
+			{include file="../controll_parts/viewonly.html"}
+		</tr>
+		{/foreach}
+
+		<tr>
+			<td>
+				宿泊日
+			</td>
+			<td>
+				{date('Y年m月d日', strtotime($start_date))} ～ {date('Y年m月d日', strtotime($end_date))} 
+			</td>			
+		</tr>
+
+		<tr>
+			<td>
+				宿泊料金(一泊あたり)
+			</td>
+			<td>
+				{$price_etc}
+			</td>			
+		</tr>
+
+		<tr>
+			<td>
+				宿泊人数
+			</td>
+			<td>
+				<!-- ★↓ホントは動的にすべきだけど現在3名以上宿泊可能な部屋はマスタに存在しないのでok。2023年5月現在 -->
+				<select name='plan_count' width='30px'>
+					<option value='1'>1人</option>
+					<option value='2'>2人</option>
+				</select>
+			</td>			
+		</tr>
+
+
+	</table>
+
+
+
+	
+	<button type="button" onclick="history.back()">戻る</button>
+	<button name="button" value="reserve">予約する</button>
+</form>
+
